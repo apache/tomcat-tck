@@ -55,7 +55,7 @@ At the moment, you will need to build the TCK locally (see below).
    mvn install
 ```
 
-1. Install the TCKs Tomcat tests against
+6. Install the TCKs Tomcat tests against
 ```
    cd $TCK/el
    mvn install
@@ -64,5 +64,5 @@ At the moment, you will need to build the TCK locally (see below).
    mvn install
 ```
 
-1. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required. In particular, you'll
+7. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required. In particular, you'll
 need to configure the TCKs to use the SNAPSHOT versions you build in the previous steps.
