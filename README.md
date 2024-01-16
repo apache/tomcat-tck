@@ -14,7 +14,7 @@ At the moment, you will need to build the TCK locally (see below).
 
 1. `mvn verify`
 
-### Running the EL TCK
+### Running the WebSocket TCK
 
 1. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required.
 
