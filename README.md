@@ -53,6 +53,9 @@ At the moment, you will need to build the TCK locally (see below).
 
    cd $TCK/webartifacts/jsp
    mvn install
+
+   cd $TCK/signaturetest
+   mvn install
 ```
 
 6. Install the TCKs Tomcat tests against
