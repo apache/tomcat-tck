@@ -34,7 +34,7 @@
             <artifactId>jakarta-expression-language-tck</artifactId>
             <version>${tck.el.version}</version>
             <!--
-              Exclude this API package if you want to run the TCK with the EL API provided by Tomcat.
+              Exclude this API package if you want to run the TCK with the Tomcat provided EL API.
             -->
             <exclusions>
               <exclusion>
@@ -48,7 +48,7 @@
             <artifactId>tomcat-jasper-el</artifactId>
             <version>${tomcat.version}</version>
             <!--
-              Exclude this API package if you want to run the TCK with the EL API provided by Jakarta.
+              Exclude this API package if you want to run the TCK with the Jakarta provided EL API.
             -->
             <!--
             <exclusions>
@@ -72,10 +72,16 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <dependenciesToScan>jakartatck:jakarta-expression-language-tck</dependenciesToScan> 
+                            <dependenciesToScan>jakartatck:jakarta-expression-language-tck</dependenciesToScan>
                             <systemPropertyVariables>
                                 <variable.mapper>org.apache.el.lang.VariableMapperImpl</variable.mapper>
                                 <junit.log.traceflag>true</junit.log.traceflag>
+                                <!-- Use this signature test classpath with the Tomcat provided EL API -->
+                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-el-api/${tomcat.version}/tomcat-el-api-${tomcat.version}.jar:${env.JAVA_HOME}/jmods/java.base</sigTestClasspath>
+                                <!-- Use this signature test classpath with the Tomcat provided EL API -->
+                                <!--
+                                <sigTestClasspath>${settings.localRepository}/jakarta/el/jakarta.el-api/${api.el.version}/jakarta.el-api-${api.el.version}.jar:${env.JAVA_HOME}/jmods/java.base</sigTestClasspath>
+                                -->
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
