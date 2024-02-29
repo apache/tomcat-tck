@@ -22,6 +22,22 @@ At the moment, you will need to build the TCK locally (see below).
 
 1. `mvn verify`
 
+### Running the Servlet TCK
+
+1. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required.
+
+1. `cd $TOMCAT_TCK\servlet-tck`
+
+1. `mvn verify`
+
+### Running the JSP TCK
+
+1. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required.
+
+1. `cd $TOMCAT_TCK\jsp-tck`
+
+1. `mvn verify`
+
 ### Running against a local build of the TCK
 
 1. Checkout the tckrefactor branch of the jakarta-tck repository to `$TCK`
@@ -61,6 +77,12 @@ At the moment, you will need to build the TCK locally (see below).
 6. Install the TCKs Tomcat tests against
 ```
    cd $TCK/el
+   mvn install
+   
+   cd $TCK/servlet
+   mvn install
+   
+   cd $TCK/jsp
    mvn install
    
    cd $TCK/websocket
