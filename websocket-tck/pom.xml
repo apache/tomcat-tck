@@ -30,7 +30,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>jakartatck</groupId>
+            <groupId>jakarta.tck</groupId>
             <artifactId>websocket-tck</artifactId>
             <version>${tck.websocket.version}</version>
             <!-- Use the WebSocket API provided by Tomcat -->
@@ -54,7 +54,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>jakartatck</groupId>
+            <groupId>jakarta.tck</groupId>
             <artifactId>common</artifactId>
             <version>${tck.common.version}</version>
         </dependency>
@@ -89,7 +89,9 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -100,7 +102,7 @@
                             <excludes>
                                 <exclude>**/platform/**</exclude>
                             </excludes>
-                            <dependenciesToScan>jakartatck:websocket-tck</dependenciesToScan>
+                            <dependenciesToScan>jakarta.tck:websocket-tck</dependenciesToScan>
                             <reuseForks>false</reuseForks>
                             <systemPropertyVariables>
                                 <webServerHost>localhost</webServerHost>
