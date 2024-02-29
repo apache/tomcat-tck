@@ -30,7 +30,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>jakartatck</groupId>
+            <groupId>jakarta.tck</groupId>
             <artifactId>jakarta-expression-language-tck</artifactId>
             <version>${tck.el.version}</version>
             <!--
@@ -64,7 +64,9 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -72,7 +74,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <dependenciesToScan>jakartatck:jakarta-expression-language-tck</dependenciesToScan>
+                            <dependenciesToScan>jakarta.tck:jakarta-expression-language-tck</dependenciesToScan>
                             <systemPropertyVariables>
                                 <variable.mapper>org.apache.el.lang.VariableMapperImpl</variable.mapper>
                                 <junit.log.traceflag>true</junit.log.traceflag>
