@@ -90,4 +90,4 @@ At the moment, you will need to build the TCK locally (see below).
 ```
 
 7. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required. In particular, you'll
-need to configure the TCKs to use the SNAPSHOT versions you build in the previous steps.
+need to configure the TCKs to use the SNAPSHOT versions you built in the previous steps.
