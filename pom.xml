@@ -66,6 +66,7 @@
     <modules>
         <module>el-tck</module>
         <module>jsp-tck</module>
+        <module>servlet-tck</module>
         <module>websocket-tck</module>
     </modules>
     
