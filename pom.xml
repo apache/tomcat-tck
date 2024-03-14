@@ -31,13 +31,13 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <!-- Tomcat version to test -->
-        <tomcat.version>11.0.0-M18-SNAPSHOT</tomcat.version>
+        <tomcat.version>11.0.0-M18</tomcat.version>
 
         <!-- TCK versions to test against -->
         <tck.el.version>6.0.0</tck.el.version>
-        <api.el.version>6.0.0-SNAPSHOT</api.el.version>
+        <api.el.version>6.0.0</api.el.version>
         <tck.servlet.version>6.1.0-SNAPSHOT</tck.servlet.version>
-        <tck.jsp.version>4.0.0-SNAPSHOT</tck.jsp.version>
+        <tck.jsp.version>4.0.0</tck.jsp.version>
         <tck.websocket.version>10.0.0-SNAPSHOT</tck.websocket.version>
 
         <!-- TCK dependency versions -->        
