@@ -1,0 +1,7 @@
+<arquillian>
+  <container qualifier="tomcat" default="true">
+    <configuration>
+      <property name="bindHttpPort">0</property>
+    </configuration>
+  </container>
+</arquillian>
