@@ -17,9 +17,9 @@
 package org.apache.tomcat.tck.servlet;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 import org.apache.catalina.Container;
-import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
@@ -83,12 +83,21 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                 Container contexts[] = tomcat.getHost().findChildren();
                 for (Container context : contexts) {
 
-                	// Configure expected encoding mapping
+                	// Configure expected encoding mapping unless application has defined one explicitly
                 	StandardContext stdContext = (StandardContext) context;
-                	stdContext.addLocaleEncodingMappingParameter("ja", "Shift_JIS");
+                	if (stdContext.getCharsetMapper().getCharset(Locale.forLanguageTag("ja")) == null) {
+                		stdContext.addLocaleEncodingMappingParameter("ja", "Shift_JIS");
+                	}
 
                 	// Enable cross-context dispatches
                 	stdContext.setCrossContext(true);
+
+                	// Subset of STRICT_SERVLET_COMPLIANCE required by TCK
+                	stdContext.setAlwaysAccessSession(true);
+                	stdContext.setContextGetResourceRequiresSlash(true);
+                	stdContext.setUseRelativeRedirects(false);
+                	stdContext.getManager().setSessionActivityCheck(true);
+                	stdContext.getManager().setSessionLastAccessAtStart(true);
                 }
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
