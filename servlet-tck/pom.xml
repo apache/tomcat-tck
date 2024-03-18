@@ -33,7 +33,7 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>tck-runtime</artifactId>
             <version>${tck.servlet.version}</version>
-            <!-- Use the JSP API provided by Tomcat -->
+            <!-- Use the Servlet API provided by Tomcat -->
             <exclusions>
               <exclusion>
                 <groupId>jakarta.servlet</groupId>
