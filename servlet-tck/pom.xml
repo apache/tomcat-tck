@@ -109,6 +109,7 @@
                             <systemPropertyVariables>
                                 <ws_wait>5</ws_wait>
                                 <junit.log.traceflag>true</junit.log.traceflag>
+                                <servlet.tck.support.http2Push>false</servlet.tck.support.http2Push>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
