@@ -17,14 +17,19 @@
 package org.apache.tomcat.tck.servlet;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Locale;
 
 import org.apache.catalina.Container;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.coyote.UpgradeProtocol;
+import org.apache.coyote.http11.AbstractHttp11Protocol;
+import org.apache.coyote.http2.Http2Protocol;
 import org.jboss.arquillian.container.spi.event.container.AfterDeploy;
-import org.jboss.arquillian.container.spi.event.container.BeforeDeploy;
+import org.jboss.arquillian.container.spi.event.container.AfterStart;
+import org.jboss.arquillian.container.spi.event.container.BeforeStart;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.container.tomcat.embedded.Tomcat10EmbeddedContainer;
@@ -38,23 +43,14 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
 
     public static class ServletObserver {
 
-        public void configureTomcat(@Observes final BeforeDeploy beforeDeploy) {
-            Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) beforeDeploy.getDeployableContainer();
+        public void configureTomcat(@Observes final AfterStart afterStart) {
+            Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) afterStart.getDeployableContainer();
             try {
             	// Obtain reference to Tomcat instance
                 Field tomcatField = Tomcat10EmbeddedContainer.class.getDeclaredField("tomcat");
                 tomcatField.setAccessible(true);
                 Tomcat tomcat = (Tomcat) tomcatField.get(container);
-
-                // Update Arquillian configuration with port being used by Tomcat
                 Connector connector = tomcat.getConnector();
-                int localPort = connector.getLocalPort();
-                Field configurationField = Tomcat10EmbeddedContainer.class.getDeclaredField("configuration");
-                configurationField.setAccessible(true);
-                Object configuration = configurationField.get(container);
-                Field portField = container.getConfigurationClass().getDeclaredField("bindHttpPort");
-                portField.setAccessible(true);
-                portField.set(configuration, Integer.valueOf(localPort));
 
                 // Add trailer headers used in TCK to allow list
                 connector.setProperty("allowedTrailerHeaders", "myTrailer,myTrailer2");
@@ -66,7 +62,28 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                 tomcat.addUser("javajoe", "javajoe");
                 tomcat.addRole("javajoe", "VP");
                 tomcat.addRole("javajoe", "Manager");
-            } catch (ReflectiveOperationException e) {
+
+                // Update Arquillian configuration with port being used by Tomcat
+                int localPort = connector.getLocalPort();
+                Field configurationField = Tomcat10EmbeddedContainer.class.getDeclaredField("configuration");
+                configurationField.setAccessible(true);
+                Object configuration = configurationField.get(container);
+                Field portField = container.getConfigurationClass().getDeclaredField("bindHttpPort");
+                portField.setAccessible(true);
+                portField.set(configuration, Integer.valueOf(localPort));
+
+	            // Add HTTP/2 support
+	            Http2Protocol http2Protocol = new Http2Protocol();
+	            AbstractHttp11Protocol<?> httpProtocol = (AbstractHttp11Protocol<?>) connector.getProtocolHandler();
+	            http2Protocol.setHttp11Protocol(httpProtocol);
+	            connector.addUpgradeProtocol(http2Protocol);
+	            // Upgrade protocols need to be added before Connector.init().
+	            // Can't do that so use reflection to achieve the same aim.
+	            Method m = AbstractHttp11Protocol.class.getDeclaredMethod(
+	            		"configureUpgradeProtocol", UpgradeProtocol.class);
+	            m.setAccessible(true);
+	            m.invoke(httpProtocol, http2Protocol);
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
