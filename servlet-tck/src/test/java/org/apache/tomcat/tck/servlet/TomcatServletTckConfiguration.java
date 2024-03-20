@@ -83,6 +83,10 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
 	            		"configureUpgradeProtocol", UpgradeProtocol.class);
 	            m.setAccessible(true);
 	            m.invoke(httpProtocol, http2Protocol);
+
+	            if ("https".equals(System.getProperty("arquillian.launch"))) {
+	            	// Need to enabled HTTPS
+	            }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
