@@ -17,19 +17,14 @@
 package org.apache.tomcat.tck.servlet;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Locale;
 
 import org.apache.catalina.Container;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.coyote.UpgradeProtocol;
-import org.apache.coyote.http11.AbstractHttp11Protocol;
-import org.apache.coyote.http2.Http2Protocol;
 import org.jboss.arquillian.container.spi.event.container.AfterDeploy;
 import org.jboss.arquillian.container.spi.event.container.AfterStart;
-import org.jboss.arquillian.container.spi.event.container.BeforeStart;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.container.tomcat.embedded.Tomcat10EmbeddedContainer;
