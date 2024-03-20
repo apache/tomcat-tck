@@ -72,18 +72,6 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                 portField.setAccessible(true);
                 portField.set(configuration, Integer.valueOf(localPort));
 
-	            // Add HTTP/2 support
-	            Http2Protocol http2Protocol = new Http2Protocol();
-	            AbstractHttp11Protocol<?> httpProtocol = (AbstractHttp11Protocol<?>) connector.getProtocolHandler();
-	            http2Protocol.setHttp11Protocol(httpProtocol);
-	            connector.addUpgradeProtocol(http2Protocol);
-	            // Upgrade protocols need to be added before Connector.init().
-	            // Can't do that so use reflection to achieve the same aim.
-	            Method m = AbstractHttp11Protocol.class.getDeclaredMethod(
-	            		"configureUpgradeProtocol", UpgradeProtocol.class);
-	            m.setAccessible(true);
-	            m.invoke(httpProtocol, http2Protocol);
-
 	            if ("https".equals(System.getProperty("arquillian.launch"))) {
 	            	// Need to enabled HTTPS
 	            }
