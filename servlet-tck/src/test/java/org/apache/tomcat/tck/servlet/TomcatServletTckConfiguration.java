@@ -16,13 +16,29 @@
  */
 package org.apache.tomcat.tck.servlet;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+import java.util.Enumeration;
 import java.util.Locale;
+
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.catalina.Container;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.util.IOTools;
+import org.apache.tomcat.util.net.SSLHostConfig;
+import org.apache.tomcat.util.net.SSLHostConfigCertificate;
+import org.apache.tomcat.util.net.SSLHostConfigCertificate.Type;
+
 import org.jboss.arquillian.container.spi.event.container.AfterDeploy;
 import org.jboss.arquillian.container.spi.event.container.AfterStart;
 import org.jboss.arquillian.core.api.annotation.Observes;
@@ -45,35 +61,100 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                 Field tomcatField = Tomcat10EmbeddedContainer.class.getDeclaredField("tomcat");
                 tomcatField.setAccessible(true);
                 Tomcat tomcat = (Tomcat) tomcatField.get(container);
-                Connector connector = tomcat.getConnector();
+                Connector connectorHttp = tomcat.getConnector();
+                int localPort;
 
-                // Add trailer headers used in TCK to allow list
-                connector.setProperty("allowedTrailerHeaders", "myTrailer,myTrailer2");
+	            if ("http".equals(System.getProperty("arquillian.launch"))) {
+	            	// HTTP used for all tests apart from CLIENT-CERT
 
-                // Add expected users
-                tomcat.addUser("j2ee", "j2ee");
-                tomcat.addRole("j2ee", "Administrator");
-                tomcat.addRole("j2ee", "Employee");
-                tomcat.addUser("javajoe", "javajoe");
-                tomcat.addRole("javajoe", "VP");
-                tomcat.addRole("javajoe", "Manager");
+	                // Add trailer headers used in TCK to allow list
+	                connectorHttp.setProperty("allowedTrailerHeaders", "myTrailer,myTrailer2");
+	                localPort = connectorHttp.getLocalPort();
+
+	                // Add expected users
+	                tomcat.addUser("j2ee", "j2ee");
+	                tomcat.addRole("j2ee", "Administrator");
+	                tomcat.addRole("j2ee", "Employee");
+	                tomcat.addUser("javajoe", "javajoe");
+	                tomcat.addRole("javajoe", "VP");
+	                tomcat.addRole("javajoe", "Manager");
+	            } else {
+	            	// Need to enabled HTTPS - only used for client-cert tests
+	            	Connector connectorHttps = new Connector();
+	            	connectorHttps.setPort(0);
+	            	connectorHttps.setSecure(true);
+	            	connectorHttps.setProperty("SSLEnabled", "true");
+
+	                SSLHostConfig sslHostConfig = new SSLHostConfig();
+	                SSLHostConfigCertificate certificateConfig = new SSLHostConfigCertificate(sslHostConfig, Type.UNDEFINED);
+	                sslHostConfig.addCertificate(certificateConfig);
+	                connectorHttps.addSslHostConfig(sslHostConfig);
+
+	                // Can't use TLSv1.3 else certificate authentication won't work
+	                sslHostConfig.setSslProtocol("TLS");
+	                sslHostConfig.setProtocols("TLSv1.2");
+
+	                // Server trust store needs to contain server root and client certificate
+	                KeyStore trustStore = KeyStore.getInstance("JKS");
+	                trustStore.load(null, null);
+	                importKeyStore("/ca.jks", trustStore);
+	                importKeyStore("/certificates/clientcert.jks", trustStore);
+	                sslHostConfig.setTrustStore(trustStore);
+
+	                // Server certificate
+	                certificateConfig.setCertificateKeystoreFile(
+	                		this.getClass().getResource("/localhost-rsa.jks").toExternalForm());
+
+	                tomcat.getService().addConnector(connectorHttps);
+	            	localPort = connectorHttps.getLocalPort();
+
+	            	// Configure the client
+	            	// Copy the client certificate from the TCK JAR
+	            	File clientCertCopy = new File("target/clientcert.jks");
+	            	if (!clientCertCopy.exists()) {
+		            	try (InputStream clientCertInputStream =
+		            			this.getClass().getResourceAsStream("/certificates/clientcert.jks");
+		            			OutputStream clientCertOutputStream = new FileOutputStream(clientCertCopy)
+		            			) {
+		            		IOTools.flow(clientCertInputStream, clientCertOutputStream);
+		            	}
+	            	}
+	            	System.setProperty("javax.net.ssl.keyStore", clientCertCopy.getAbsolutePath());
+	            	System.setProperty("javax.net.ssl.keyStorePassword", "changeit");
+	            	URL trustStoreUrl = this.getClass().getResource("/ca.jks");
+	            	System.setProperty("javax.net.ssl.trustStore", trustStoreUrl.getFile());
+
+	            	// Create the user
+	            	tomcat.addUser("CN=CTS, OU=Java Software, O=Sun Microsystems Inc., L=Burlington, ST=MA, C=US", "must-be-non-null");
+	            	tomcat.addRole("CN=CTS, OU=Java Software, O=Sun Microsystems Inc., L=Burlington, ST=MA, C=US", "Administrator");
+	            }
 
                 // Update Arquillian configuration with port being used by Tomcat
-                int localPort = connector.getLocalPort();
                 Field configurationField = Tomcat10EmbeddedContainer.class.getDeclaredField("configuration");
                 configurationField.setAccessible(true);
                 Object configuration = configurationField.get(container);
                 Field portField = container.getConfigurationClass().getDeclaredField("bindHttpPort");
                 portField.setAccessible(true);
                 portField.set(configuration, Integer.valueOf(localPort));
-
-	            if ("https".equals(System.getProperty("arquillian.launch"))) {
-	            	// Need to enabled HTTPS
-	            }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
+
+
+        private void importKeyStore(String resourcePath, KeyStore destination) throws Exception {
+            try (InputStream caInputStream = this.getClass().getResourceAsStream(resourcePath)) {
+            	KeyStore caStore = KeyStore.getInstance("JKS");
+            	caStore.load(caInputStream, "changeit".toCharArray());
+            	Enumeration<String> aliases = caStore.aliases();
+            	while (aliases.hasMoreElements()) {
+            		String alias = aliases.nextElement();
+            		Certificate certificate = caStore.getCertificate(alias);
+            		destination.setCertificateEntry(alias, certificate);
+            	}
+            }
+        }
+
 
         public void configureContext(@Observes final AfterDeploy afterDeploy) {
             Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) afterDeploy.getDeployableContainer();
@@ -106,6 +187,27 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+
+    public static class TrustAllCerts implements X509TrustManager {
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return new X509Certificate[0];
+        }
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] certs,
+                String authType) {
+            // NOOP - Trust everything
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] certs,
+                String authType) {
+            // NOOP - Trust everything
         }
     }
 }

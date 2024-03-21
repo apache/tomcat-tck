@@ -94,23 +94,62 @@
                 <version>${failsafe.plugin.version}</version>
                 <executions>
                     <execution>
+                        <id>http</id>
                         <goals>
                             <goal>integration-test</goal>
-                            <goal>verify</goal>
                         </goals>
                         <configuration>
                             <dependenciesToScan>jakarta.servlet:tck-runtime</dependenciesToScan>
                             <includes>
-                              <include>**/*Test.java</include>                                
-                              <include>**/*Tests.java</include>                                
+                                <include>**/*Test.java</include>                                
+                                <include>**/*Tests.java</include>                                
                             </includes>
+                            <excludes>
+                                <exclude>**/ClientCertTests.java</exclude>                                
+                                <exclude>**/ClientCertAnnoTests.java</exclude>                                
+                            </excludes>
                             <forkCount>5</forkCount>
                             <reuseForks>false</reuseForks>
                             <systemPropertyVariables>
                                 <ws_wait>5</ws_wait>
                                 <junit.log.traceflag>true</junit.log.traceflag>
                                 <servlet.tck.support.http2Push>false</servlet.tck.support.http2Push>
+                                <arquillian.launch>http</arquillian.launch>
                             </systemPropertyVariables>
+                            <summaryFile>target/failsafe-reports/failsafe-summary-http.xml</summaryFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>https</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <configuration>
+                            <dependenciesToScan>jakarta.servlet:tck-runtime</dependenciesToScan>
+                            <includes>
+                              <include>**/ClientCertTests.java</include>                                
+                              <include>**/ClientCertAnnoTests.java</include>                                
+                            </includes>
+                            <reuseForks>false</reuseForks>
+                            <systemPropertyVariables>
+                                <ws_wait>5</ws_wait>
+                                <junit.log.traceflag>true</junit.log.traceflag>
+                                <servlet.tck.support.http2Push>false</servlet.tck.support.http2Push>
+                                <arquillian.launch>https</arquillian.launch>
+                            </systemPropertyVariables>
+                            <summaryFile>target/failsafe-reports/failsafe-summary-https.xml</summaryFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <summaryFiles>
+                                <summaryFile>target/failsafe-reports/failsafe-summary-http.xml</summaryFile>
+                                <summaryFile>target/failsafe-reports/failsafe-summary-https.xml</summaryFile>
+                            </summaryFiles>
                         </configuration>
                     </execution>
                 </executions>
