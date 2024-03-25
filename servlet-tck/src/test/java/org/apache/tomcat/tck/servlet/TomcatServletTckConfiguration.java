@@ -64,21 +64,7 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                 Connector connectorHttp = tomcat.getConnector();
                 int localPort;
 
-	            if ("http".equals(System.getProperty("arquillian.launch"))) {
-	            	// HTTP used for all tests apart from CLIENT-CERT
-
-	                // Add trailer headers used in TCK to allow list
-	                connectorHttp.setProperty("allowedTrailerHeaders", "myTrailer,myTrailer2");
-	                localPort = connectorHttp.getLocalPort();
-
-	                // Add expected users
-	                tomcat.addUser("j2ee", "j2ee");
-	                tomcat.addRole("j2ee", "Administrator");
-	                tomcat.addRole("j2ee", "Employee");
-	                tomcat.addUser("javajoe", "javajoe");
-	                tomcat.addRole("javajoe", "VP");
-	                tomcat.addRole("javajoe", "Manager");
-	            } else {
+	            if ("https".equals(System.getProperty("arquillian.launch"))) {
 	            	// Need to enabled HTTPS - only used for client-cert tests
 	            	Connector connectorHttps = new Connector();
 	            	connectorHttps.setPort(0);
@@ -127,6 +113,20 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
 	            	// Create the user
 	            	tomcat.addUser("CN=CTS, OU=Java Software, O=Sun Microsystems Inc., L=Burlington, ST=MA, C=US", "must-be-non-null");
 	            	tomcat.addRole("CN=CTS, OU=Java Software, O=Sun Microsystems Inc., L=Burlington, ST=MA, C=US", "Administrator");
+	            } else {
+	            	// HTTP used for all tests apart from CLIENT-CERT
+
+	                // Add trailer headers used in TCK to allow list
+	                connectorHttp.setProperty("allowedTrailerHeaders", "myTrailer,myTrailer2");
+	                localPort = connectorHttp.getLocalPort();
+
+	                // Add expected users
+	                tomcat.addUser("j2ee", "j2ee");
+	                tomcat.addRole("j2ee", "Administrator");
+	                tomcat.addRole("j2ee", "Employee");
+	                tomcat.addUser("javajoe", "javajoe");
+	                tomcat.addRole("javajoe", "VP");
+	                tomcat.addRole("javajoe", "Manager");
 	            }
 
                 // Update Arquillian configuration with port being used by Tomcat
