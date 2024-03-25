@@ -72,6 +72,9 @@ At the moment, you will need to build the TCK locally (see below).
 
    cd $TCK/signaturetest
    mvn install
+
+   cd $TCK/user_guides
+   mvn install
 ```
 
 6. Install the TCKs Tomcat tests against

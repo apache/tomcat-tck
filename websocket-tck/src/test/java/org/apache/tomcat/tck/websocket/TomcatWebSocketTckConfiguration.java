@@ -17,8 +17,14 @@
 package org.apache.tomcat.tck.websocket;
 
 import java.lang.reflect.Field;
+import java.net.URL;
 
 import org.apache.catalina.Host;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.net.SSLHostConfig;
+import org.apache.tomcat.util.net.SSLHostConfigCertificate;
+import org.apache.tomcat.util.net.SSLHostConfigCertificate.Type;
 import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.jboss.arquillian.container.spi.event.container.BeforeDeploy;
 import org.jboss.arquillian.core.api.annotation.Observes;
@@ -38,10 +44,58 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
         public void configureContext(@Observes final BeforeDeploy beforeDeploy) {
             Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) beforeDeploy.getDeployableContainer();
             try {
-                Field hostField = Tomcat10EmbeddedContainer.class.getDeclaredField("host");
-                hostField.setAccessible(true);
-                Host host = (Host) hostField.get(container);
+            	// Obtain reference to Tomcat instance
+                Field tomcatField = Tomcat10EmbeddedContainer.class.getDeclaredField("tomcat");
+                tomcatField.setAccessible(true);
+                Tomcat tomcat = (Tomcat) tomcatField.get(container);
+                Connector connectorHttp = tomcat.getConnector();
+                int localPort;
+
+                // Add expected users
+                tomcat.addUser("j2ee", "j2ee");
+                tomcat.addRole("j2ee", "staff");
+
+	            if ("https".equals(System.getProperty("arquillian.launch"))) {
+	            	// Need to enabled HTTPS - only used for client-cert tests
+	            	Connector connectorHttps = new Connector();
+	            	connectorHttps.setPort(0);
+	            	connectorHttps.setSecure(true);
+	            	connectorHttps.setProperty("SSLEnabled", "true");
+
+	                SSLHostConfig sslHostConfig = new SSLHostConfig();
+	                SSLHostConfigCertificate certificateConfig = new SSLHostConfigCertificate(sslHostConfig, Type.UNDEFINED);
+	                sslHostConfig.addCertificate(certificateConfig);
+	                connectorHttps.addSslHostConfig(sslHostConfig);
+
+	                // Can't use TLSv1.3 else certificate authentication won't work
+	                sslHostConfig.setSslProtocol("TLS");
+	                sslHostConfig.setProtocols("TLSv1.2");
+
+	                // Server certificate
+	                certificateConfig.setCertificateKeystoreFile(
+	                		this.getClass().getResource("/localhost-rsa.jks").toExternalForm());
+
+	                tomcat.getService().addConnector(connectorHttps);
+	            	localPort = connectorHttps.getLocalPort();
+
+	            	// Configure the client
+	            	URL trustStoreUrl = this.getClass().getResource("/ca.jks");
+	            	System.setProperty("javax.net.ssl.trustStore", trustStoreUrl.getFile());
+	            } else {
+	                localPort = connectorHttp.getLocalPort();
+	            }
+
+                // Configure JAR scanner
+                Host host = tomcat.getHost();
                 host.setConfigClass(EmbeddedWebSocketContextConfig.class.getName());
+
+                // Update Arquillian configuration with port being used by Tomcat
+                Field configurationField = Tomcat10EmbeddedContainer.class.getDeclaredField("configuration");
+                configurationField.setAccessible(true);
+                Object configuration = configurationField.get(container);
+                Field portField = container.getConfigurationClass().getDeclaredField("bindHttpPort");
+                portField.setAccessible(true);
+                portField.set(configuration, Integer.valueOf(localPort));
             } catch (ReflectiveOperationException e) {
                 throw new RuntimeException(e);
             }
