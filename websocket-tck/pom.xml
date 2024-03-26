@@ -114,9 +114,13 @@
                             </excludes>
                             <dependenciesToScan>
                                 <dependency>jakarta.tck:websocket-tck-spec-tests</dependency>
+                                <!--
+                                Not strictly required for Tomcat to pass the TCK
+                                May be enabled to perform the authentication tests that Tomcat should pass
                                 <dependency>jakarta.tck:websocket-tck-platform-tests</dependency>
+                                -->
                             </dependenciesToScan>
-                            <forkCount>20</forkCount>
+                            <forkCount>5</forkCount>
                             <reuseForks>false</reuseForks>
                             <systemPropertyVariables>
                                 <arquillian.launch>http</arquillian.launch>
