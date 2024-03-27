@@ -36,7 +36,7 @@
         <!-- TCK versions to test against -->
         <tck.el.version>6.0.0</tck.el.version>
         <api.el.version>6.0.0</api.el.version>
-        <tck.servlet.version>6.1.0-SNAPSHOT</tck.servlet.version>
+        <tck.servlet.version>6.1.0</tck.servlet.version>
         <tck.jsp.version>4.0.0</tck.jsp.version>
         <tck.websocket.version>2.2.0</tck.websocket.version>
 
