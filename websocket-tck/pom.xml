@@ -31,9 +31,8 @@
     <dependencies>
         <dependency>
             <groupId>jakarta.tck</groupId>
-            <artifactId>websocket-tck-dist</artifactId>
+            <artifactId>websocket-tck-spec-tests</artifactId>
             <version>${tck.websocket.version}</version>
-            <!-- Use the WebSocket API provided by Tomcat -->
             <exclusions>
               <exclusion>
                 <groupId>jakarta.websocket</groupId>
@@ -45,6 +44,25 @@
               </exclusion>
             </exclusions>
         </dependency>
+        <!--
+        Not strictly required for Tomcat to pass the TCK
+        May be enabled to perform the authentication tests that Tomcat should pass
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>websocket-tck-platform-tests</artifactId>
+            <version>${tck.websocket.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>jakarta.websocket</groupId>
+                <artifactId>jakarta.websocket-client-api</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>jakarta.websocket</groupId>
+                <artifactId>jakarta.websocket-client-api</artifactId>
+              </exclusion>
+            </exclusions>
+        </dependency>
+        -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
