@@ -44,7 +44,7 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
         public void configureContext(@Observes final BeforeDeploy beforeDeploy) {
             Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) beforeDeploy.getDeployableContainer();
             try {
-            	// Obtain reference to Tomcat instance
+                // Obtain reference to Tomcat instance
                 Field tomcatField = Tomcat10EmbeddedContainer.class.getDeclaredField("tomcat");
                 tomcatField.setAccessible(true);
                 Tomcat tomcat = (Tomcat) tomcatField.get(container);
@@ -55,35 +55,35 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
                 tomcat.addUser("j2ee", "j2ee");
                 tomcat.addRole("j2ee", "staff");
 
-	            if ("https".equals(System.getProperty("arquillian.launch"))) {
-	            	// Need to enabled HTTPS - only used for client-cert tests
-	            	Connector connectorHttps = new Connector();
-	            	connectorHttps.setPort(0);
-	            	connectorHttps.setSecure(true);
-	            	connectorHttps.setProperty("SSLEnabled", "true");
+                if ("https".equals(System.getProperty("arquillian.launch"))) {
+                    // Need to enabled HTTPS - only used for client-cert tests
+                    Connector connectorHttps = new Connector();
+                    connectorHttps.setPort(0);
+                    connectorHttps.setSecure(true);
+                    connectorHttps.setProperty("SSLEnabled", "true");
 
-	                SSLHostConfig sslHostConfig = new SSLHostConfig();
-	                SSLHostConfigCertificate certificateConfig = new SSLHostConfigCertificate(sslHostConfig, Type.UNDEFINED);
-	                sslHostConfig.addCertificate(certificateConfig);
-	                connectorHttps.addSslHostConfig(sslHostConfig);
+                    SSLHostConfig sslHostConfig = new SSLHostConfig();
+                    SSLHostConfigCertificate certificateConfig = new SSLHostConfigCertificate(sslHostConfig, Type.UNDEFINED);
+                    sslHostConfig.addCertificate(certificateConfig);
+                    connectorHttps.addSslHostConfig(sslHostConfig);
 
-	                // Can't use TLSv1.3 else certificate authentication won't work
-	                sslHostConfig.setSslProtocol("TLS");
-	                sslHostConfig.setProtocols("TLSv1.2");
+                    // Can't use TLSv1.3 else certificate authentication won't work
+                    sslHostConfig.setSslProtocol("TLS");
+                    sslHostConfig.setProtocols("TLSv1.2");
 
-	                // Server certificate
-	                certificateConfig.setCertificateKeystoreFile(
-	                		this.getClass().getResource("/localhost-rsa.jks").toExternalForm());
+                    // Server certificate
+                    certificateConfig.setCertificateKeystoreFile(
+                            this.getClass().getResource("/localhost-rsa.jks").toExternalForm());
 
-	                tomcat.getService().addConnector(connectorHttps);
-	            	localPort = connectorHttps.getLocalPort();
+                    tomcat.getService().addConnector(connectorHttps);
+                    localPort = connectorHttps.getLocalPort();
 
-	            	// Configure the client
-	            	URL trustStoreUrl = this.getClass().getResource("/ca.jks");
-	            	System.setProperty("javax.net.ssl.trustStore", trustStoreUrl.getFile());
-	            } else {
-	                localPort = connectorHttp.getLocalPort();
-	            }
+                    // Configure the client
+                    URL trustStoreUrl = this.getClass().getResource("/ca.jks");
+                    System.setProperty("javax.net.ssl.trustStore", trustStoreUrl.getFile());
+                } else {
+                    localPort = connectorHttp.getLocalPort();
+                }
 
                 // Configure JAR scanner
                 Host host = tomcat.getHost();
