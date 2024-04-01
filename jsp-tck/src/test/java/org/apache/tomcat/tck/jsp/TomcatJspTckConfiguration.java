@@ -51,6 +51,14 @@ public class TomcatJspTckConfiguration implements LoadableExtension {
                 Connector connectorHttp = tomcat.getConnector();
                 int localPort = connectorHttp.getLocalPort();
 
+                // Add expected users
+                tomcat.addUser("j2ee", "j2ee");
+                tomcat.addRole("j2ee", "Administrator");
+                tomcat.addRole("j2ee", "Employee");
+                tomcat.addUser("javajoe", "javajoe");
+                tomcat.addRole("javajoe", "VP");
+                tomcat.addRole("javajoe", "Manager");
+
                 // Update Arquillian configuration with port being used by Tomcat
                 Field configurationField = Tomcat10EmbeddedContainer.class.getDeclaredField("configuration");
                 configurationField.setAccessible(true);
