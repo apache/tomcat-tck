@@ -110,10 +110,6 @@
                         </goals>
                         <configuration>
                             <dependenciesToScan>jakarta.tck:jakarta-pages-tck</dependenciesToScan>
-                            <excludes>
-                                <!-- Exclude platform tests -->
-                                <exclude>com/sun/ts/tests/jsp/spec/tagext/resource/**</exclude>
-                            </excludes>
                             <forkCount>5</forkCount>
                             <reuseForks>false</reuseForks>
                             <systemPropertyVariables>
@@ -122,7 +118,7 @@
                                 <securedWebServicePort>8443</securedWebServicePort>
                                 <ws_wait>5</ws_wait>
                                 <junit.log.traceflag>true</junit.log.traceflag>
-                                <porting.ts.url.class.1>com.sun.ts.tests.jsp.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
+                                <porting.ts.url.class.1>ee.jakarta.tck.pages.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                                 <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-jsp-api/${tomcat.version}/tomcat-jsp-api-${tomcat.version}.jar:${settings.localRepository}/org/apache/tomcat/tomcat-el-api/${tomcat.version}/tomcat-el-api-${tomcat.version}.jar:${settings.localRepository}/org/apache/tomcat/tomcat-servlet-api/${tomcat.version}/tomcat-servlet-api-${tomcat.version}.jar:${env.JAVA_HOME}/jmods/java.base</sigTestClasspath>
                                 <user>j2ee</user>
                                 <password>j2ee</password>
