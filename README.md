@@ -4,7 +4,7 @@
 
 This is a Maven project that can be used to run the refactored TCK (Jakarta 11 onwards) with Tomcat 11.
 
-At the moment, you will need to build the TCK locally (see below).
+At the moment, you will need to manually install the TCKs into your local Maven repository (see below).
 
 ### Running the EL TCK
 
@@ -38,59 +38,50 @@ At the moment, you will need to build the TCK locally (see below).
 
 1. `mvn verify`
 
-### Running against a local build of the TCK
+### Installing the TCKs
 
-1. Checkout the tckrefactor branch of the jakarta-tck repository to `$TCK`
+#### Expression Language TCK
 
-1. `cd $TCK`
+1. Download the EL TCK from https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee11/staged/eftl/jakarta-expression-language-tck-6.0.0.zip
 
-1. Install javatest into the local maven repository
-   `mvn -e -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar`
-   
-1. Install the top-level project Jakarta TCK POM
-   `mvn --non-recursive install`
+1. Extract the contents
 
-1. Install the various libraries required by the TCKs Tomcat tests against
-```
-   cd $TCK/libutil
-   mvn install
-   
-   cd $TCK/runtime
-   mvn install
-   
-   cd $TCK/common
-   mvn install
+1. `cd el-tck/artifacts`
 
-   cd $TCK/assembly
-   mvn install
+1. Install the TCK JAR into the local Maven repository
+   `mvn org.apache.Maven.plugins:Maven-install-plugin:3.1.1:install-file -Dfile=jakarta-expression-language-tck-6.0.0.jar`
 
-   cd $TCK/webartifacts/servlet
-   mvn install
+1. Edit the POM created in your local Maven repository to update the version for the parent (jakarta.tck:project) from 10.0.0-SNAPSHOT to 11.0.0-M1
 
-   cd $TCK/webartifacts/jsp
-   mvn install
+#### WebSocket TCK
 
-   cd $TCK/signaturetest
-   mvn install
+1. Download the WebSocket TCK from https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee11/staged/eftl/jakarta-websocket-tck-2.2.0.zip
 
-   cd $TCK/user_guides
-   mvn install
-```
+1. Extract the contents
 
-6. Install the TCKs Tomcat tests against
-```
-   cd $TCK/el
-   mvn install
-   
-   cd $TCK/servlet
-   mvn install
-   
-   cd $TCK/jsp
-   mvn install
-   
-   cd $TCK/websocket
-   mvn install
-```
+1. `cd websocket-tck/artifacts`
 
-7. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required. In particular, you'll
-need to configure the TCKs to use the SNAPSHOT versions you built in the previous steps.
+1. Install the TCK JARs into the local Maven repository
+   `artifact-install.sh`
+
+#### Pages TCK
+
+1. Download the Pages TCK from https://download.eclipse.org/ee4j/pages/jakartaee11/staged/eftl/jakarta-pages-tck-4.0.0.zip
+
+1. Extract the contents
+
+1. `cd websocket-tck/artifacts`
+
+1. Install the TCK JARs into the local Maven repository
+   `mvn org.apache.Maven.plugins:Maven-install-plugin:3.1.1:install-file -Dfile=jakarta-pages-tck-4.0.0.jar`
+
+1. Check out the https://github.com/jakartaee/platform-tck repository
+
+1. `cd platform-tck\lib`
+
+1. Install the javatest JAR into the local Maven repository
+   `mvn install:install-file -Dfile=javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar`
+
+#### Servlet TCK
+
+TBD.
