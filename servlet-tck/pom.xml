@@ -30,8 +30,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>tck-runtime</artifactId>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>servlet-tck-runtime</artifactId>
             <version>${tck.servlet.version}</version>
             <!-- Use the Servlet API provided by Tomcat -->
             <exclusions>
@@ -109,7 +109,7 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <dependenciesToScan>jakarta.servlet:tck-runtime</dependenciesToScan>
+                            <dependenciesToScan>jakarta.tck:servlet-tck-runtime</dependenciesToScan>
                             <includes>
                                 <include>**/*Test.java</include>                                
                                 <include>**/*Tests.java</include>                                

@@ -70,7 +70,7 @@ At the moment, you will need to manually install the TCKs into your local Maven 
 
 1. Extract the contents
 
-1. `cd websocket-tck/artifacts`
+1. `cd pages-tck/artifacts`
 
 1. Install the TCK JARs into the local Maven repository
    `mvn org.apache.Maven.plugins:Maven-install-plugin:3.1.1:install-file -Dfile=jakarta-pages-tck-4.0.0.jar`
@@ -84,4 +84,11 @@ At the moment, you will need to manually install the TCKs into your local Maven 
 
 #### Servlet TCK
 
-TBD.
+1. Download the Pages TCK from https://download.eclipse.org/ee4j/servlet/jakartaee11/staged/eftl/jakarta-servlet-tck-6.1.0.zip
+
+1. Extract the contents
+
+1. `cd servlet-tck/artifacts`
+
+1. Install the TCK JARs into the local Maven repository
+   `artifact-install.sh`
