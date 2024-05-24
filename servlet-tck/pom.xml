@@ -90,10 +90,6 @@
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -136,7 +132,7 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <dependenciesToScan>jakarta.servlet:tck-runtime</dependenciesToScan>
+                            <dependenciesToScan>jakarta.tck:servlet-tck-runtime</dependenciesToScan>
                             <includes>
                               <include>**/ClientCertTests.java</include>                                
                               <include>**/ClientCertAnnoTests.java</include>                                
