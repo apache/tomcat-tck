@@ -17,19 +17,12 @@
 package org.apache.tomcat.tck.jsp;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 
-import org.apache.catalina.Host;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.tomcat.util.net.SSLHostConfig;
-import org.apache.tomcat.util.net.SSLHostConfigCertificate;
-import org.apache.tomcat.util.net.SSLHostConfigCertificate.Type;
-import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.jboss.arquillian.container.spi.event.container.BeforeDeploy;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.container.tomcat.embedded.EmbeddedContextConfig;
 import org.jboss.arquillian.container.tomcat.embedded.Tomcat10EmbeddedContainer;
 
 public class TomcatJspTckConfiguration implements LoadableExtension {
