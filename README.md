@@ -42,7 +42,7 @@ At the moment, you will need to manually install the TCKs into your local Maven 
 
 #### Expression Language TCK
 
-1. Download the EL TCK from https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee11/staged/eftl/jakarta-expression-language-tck-6.0.0.zip
+1. Download the EL TCK from https://download.eclipse.org/jakartaee/expression-language/6.0/jakarta-expression-language-tck-6.0.0.zip
 
 1. Extract the contents
 
@@ -55,7 +55,7 @@ At the moment, you will need to manually install the TCKs into your local Maven 
 
 #### WebSocket TCK
 
-1. Download the WebSocket TCK from https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee11/staged/eftl/jakarta-websocket-tck-2.2.0.zip
+1. Download the WebSocket TCK from https://download.eclipse.org/jakartaee/websocket/2.2/jakarta-websocket-tck-2.2.0.zip
 
 1. Extract the contents
 
@@ -66,7 +66,7 @@ At the moment, you will need to manually install the TCKs into your local Maven 
 
 #### Pages TCK
 
-1. Download the Pages TCK from https://download.eclipse.org/ee4j/pages/jakartaee11/staged/eftl/jakarta-pages-tck-4.0.0.zip
+1. Download the Pages TCK from https://download.eclipse.org/jakartaee/pages/4.0/jakarta-pages-tck-4.0.0.zip
 
 1. Extract the contents
 
@@ -84,7 +84,7 @@ At the moment, you will need to manually install the TCKs into your local Maven 
 
 #### Servlet TCK
 
-1. Download the Pages TCK from https://download.eclipse.org/ee4j/servlet/jakartaee11/staged/eftl/jakarta-servlet-tck-6.1.0.zip
+1. Download the Pages TCK from https://download.eclipse.org/jakartaee/servlet/6.1/jakarta-servlet-tck-6.1.0.zip
 
 1. Extract the contents
 
