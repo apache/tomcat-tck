@@ -32,7 +32,7 @@
         <dependency>
             <groupId>jakarta.tck</groupId>
             <artifactId>jakarta-pages-tck</artifactId>
-            <version>${tck.jsp.version}</version>
+            <version>${tck.pages.version}</version>
             <!-- Use the JSP API provided by Tomcat -->
             <exclusions>
               <exclusion>
@@ -110,7 +110,7 @@
                         </goals>
                         <configuration>
                             <dependenciesToScan>jakarta.tck:jakarta-pages-tck</dependenciesToScan>
-                            <forkCount>5</forkCount>
+                            <forkCount>${fork.count}</forkCount>
                             <reuseForks>false</reuseForks>
                             <systemPropertyVariables>
                                 <webServerHost>localhost</webServerHost>

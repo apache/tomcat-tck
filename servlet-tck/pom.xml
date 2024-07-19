@@ -107,14 +107,14 @@
                         <configuration>
                             <dependenciesToScan>jakarta.tck:servlet-tck-runtime</dependenciesToScan>
                             <includes>
-                                <include>**/*Test.java</include>                                
-                                <include>**/*Tests.java</include>                                
+                                <include>**/*Test.java</include>
+                                <include>**/*Tests.java</include>
                             </includes>
                             <excludes>
                                 <exclude>**/ClientCertTests.java</exclude>                                
                                 <exclude>**/ClientCertAnnoTests.java</exclude>                                
                             </excludes>
-                            <forkCount>5</forkCount>
+                            <forkCount>${fork.count}</forkCount>
                             <reuseForks>false</reuseForks>
                             <systemPropertyVariables>
                                 <ws_wait>5</ws_wait>

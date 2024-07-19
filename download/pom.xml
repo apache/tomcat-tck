@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <artifactId>download</artifactId>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tck</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>${download.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>download-el-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Final location -->
+                            <!--
+                            <url>https://download.eclipse.org/jakartaee/expression-language/6.0/jakarta-expression-language-tck-${tck.el.version}.zip</url>
+                            -->
+                            <!-- Staging - remove this once the update is published -->
+                            <url>https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee11/staged/eftl/jakarta-expression-language-tck-6.0.1.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <sha256>bd16049bb853e7e71b75feca9b37f0931f5619694551afc87389267a23ca324f</sha256>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-websocket-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://download.eclipse.org/jakartaee/websocket/2.2/jakarta-websocket-tck-${tck.websocket.version}.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <sha256>ff50825305bd1318a4e6bdfab21b829cfd8cf89fab8a970f007b52636d3f2629</sha256>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-servlet-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://download.eclipse.org/jakartaee/servlet/6.1/jakarta-servlet-tck-${tck.servlet.version}.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <sha256>1170697a87622a920bd50f0a68ed594c6efc5e17dd370566312194c4e12bec29</sha256>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>download-pages-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://download.eclipse.org/jakartaee/pages/4.0/jakarta-pages-tck-4.0.0.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <sha256>5446aa866601a7c4c425f74054590cfc7f4fc05592a572d399ecc8694e265489</sha256>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>${maven.install.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>install-el-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/el-tck/artifacts/jakarta-expression-language-tck-${tck.el.version}.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-websocket-tck-pom</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/websocket-tck/artifacts/websocket-tck-${tck.websocket.version}.pom</file>
+                            <groupId>jakarta.tck</groupId>
+                            <artifactId>websocket-tck</artifactId>
+                            <version>${tck.websocket.version}</version>
+                            <packaging>pom</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-websocket-tck-common</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/websocket-tck/artifacts/websocket-tck-common-${tck.websocket.version}.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-websocket-tck-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/websocket-tck/artifacts/websocket-tck-spec-tests-${tck.websocket.version}.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-servlet-tck-pom</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/servlet-tck/artifacts/servlet-tck-${tck.servlet.version}.pom</file>
+                            <groupId>jakarta.tck</groupId>
+                            <artifactId>servlet-tck</artifactId>
+                            <version>${tck.servlet.version}</version>
+                            <packaging>pom</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-servlet-tck-util</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/servlet-tck/artifacts/servlet-tck-util-${tck.servlet.version}.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-servlet-tck-runtime</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/servlet-tck/artifacts/servlet-tck-runtime-${tck.servlet.version}.jar</file>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-pages-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/pages-tck/artifacts/jakarta-pages-tck-${tck.pages.version}.jar</file>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

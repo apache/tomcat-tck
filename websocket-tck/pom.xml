@@ -126,7 +126,7 @@
                                 <dependency>jakarta.tck:websocket-tck-spec-tests</dependency>
                                 <dependency>jakarta.tck:websocket-tck-platform-tests</dependency>
                             </dependenciesToScan>
-                            <forkCount>5</forkCount>
+                            <forkCount>${fork.count}</forkCount>
                             <reuseForks>false</reuseForks>
                             <systemPropertyVariables>
                                 <arquillian.launch>http</arquillian.launch>
