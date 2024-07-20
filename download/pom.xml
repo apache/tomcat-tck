@@ -50,7 +50,7 @@
                             <url>https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee11/staged/eftl/jakarta-expression-language-tck-6.0.1.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
-                            <sha256>bd16049bb853e7e71b75feca9b37f0931f5619694551afc87389267a23ca324f</sha256>
+                            <sha256>8ca4339e1b93c8f490c38b5888d8a54d09f7d12257b222bff2d44d665f323cee</sha256>
                         </configuration>
                     </execution>
                     <execution>

@@ -59,12 +59,6 @@
             </exclusions>
             -->
         </dependency>
-        <!-- EL TCK declares sigtest 2.3 but that has an incomptible change to how the IgnoreJDKClass works -->
-        <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>sigtest-maven-plugin</artifactId>
-            <version>2.2</version>
-        </dependency>
     </dependencies>
 
     <build>
