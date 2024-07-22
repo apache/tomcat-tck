@@ -4,7 +4,13 @@
 
 This is a Maven project that can be used to run the refactored TCK (Jakarta 11 onwards) with Tomcat 11.
 
-At the moment, you will need to manually install the TCKs into your local Maven repository (see below).
+### Running the Annotations TCK
+
+1. Review the component TCK and Tomcat versions in `$TCK_TOMCAT/pom.xml` and edit as required.
+
+1. `cd $TOMCAT_TCK\annotations-tck`
+
+1. `mvn verify`
 
 ### Running the EL TCK
 

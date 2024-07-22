@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <artifactId>annotations-tck</artifactId>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tck</artifactId>
+        <version>11.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta-annotations-tck</artifactId>
+            <version>${tck.annotations.version}</version>
+            <exclusions>
+              <exclusion>
+                <groupId>jakarta.annotations</groupId>
+                <artifactId>jakarta.annotations-api</artifactId>
+              </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <version>2.1</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.netbeans.tools</groupId>
+                <artifactId>ct-sym</artifactId>
+              </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-annotations-api</artifactId>
+            <version>${tomcat.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <dependenciesToScan>jakarta.annotation:jakarta-annotations-tck</dependenciesToScan>
+                            <systemPropertyVariables>
+                                <junit.log.traceflag>true</junit.log.traceflag>
+                                <jimage.dir>${project.build.directory}/jimage</jimage.dir>
+                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-annotations-api/${tomcat.version}/tomcat-annotations-api-${tomcat.version}.jar${path.separator}${project.build.directory}/jimage/java.base</sigTestClasspath>
+                                <ca.sig.generated>true</ca.sig.generated>
+                                <ca.sig.postconstruct>true</ca.sig.postconstruct>
+                                <ca.sig.priority>true</ca.sig.priority>
+                                <ca.sig.predestroy>true</ca.sig.predestroy>
+                                <ca.sig.resource>true</ca.sig.resource>
+                                <ca.sig.resources>true</ca.sig.resources>
+                                <ca.sig.securitydeclareroles>true</ca.sig.securitydeclareroles>
+                                <ca.sig.securitydenyall>true</ca.sig.securitydenyall>
+                                <ca.sig.securitypermitall>true</ca.sig.securitypermitall>
+                                <ca.sig.securityrolesallowed>true</ca.sig.securityrolesallowed>
+                                <ca.sig.securityrunas>true</ca.sig.securityrunas>
+                                <ca.sig.sqldatasourcedefinition>true</ca.sig.sqldatasourcedefinition>
+                                <ca.sig.sqldatasourcedefinitions>true</ca.sig.sqldatasourcedefinitions>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

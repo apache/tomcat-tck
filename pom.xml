@@ -37,6 +37,7 @@
         <fork.count>4</fork.count>
 
         <!-- TCK versions to test against -->
+        <tck.annotations.version>3.0.0</tck.annotations.version>
         <tck.el.version>6.0.1</tck.el.version>
         <api.el.version>6.0.0</api.el.version>
         <tck.servlet.version>6.1.0</tck.servlet.version>
@@ -76,6 +77,7 @@
 
     <modules>
         <module>download</module>
+        <module>annotations-tck</module>
         <module>el-tck</module>
         <module>jsp-tck</module>
         <module>servlet-tck</module>

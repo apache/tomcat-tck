@@ -36,6 +36,19 @@
                 <version>${download.maven.plugin.version}</version>
                 <executions>
                     <execution>
+                        <id>download-annotations-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <url>https://download.eclipse.org/jakartaee/annotations/3.0/jakarta-annotations-tck-${tck.annotations.version}.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <sha256>9421c6ca66274d32dfb408848f75a42d57f120599fe0d8403c5c5c1141d5ac4d</sha256>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>download-el-tck</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -111,6 +124,16 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <version>${maven.install.plugin.version}</version>
                 <executions>
+                    <execution>
+                        <id>install-annotations-tck</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/annotations-tck/artifacts/jakarta-annotations-tck-${tck.annotations.version}.jar</file>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>install-el-tck</id>
                         <phase>pre-integration-test</phase>
