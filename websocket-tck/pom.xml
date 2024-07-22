@@ -38,10 +38,6 @@
                 <groupId>jakarta.websocket</groupId>
                 <artifactId>jakarta.websocket-client-api</artifactId>
               </exclusion>
-              <exclusion>
-                <groupId>org.netbeans.tools</groupId>
-                <artifactId>ct-sym</artifactId>
-              </exclusion>
             </exclusions>
         </dependency>
         <!--
@@ -106,6 +102,12 @@
             <groupId>jakarta.tck</groupId>
             <artifactId>sigtest-maven-plugin</artifactId>
             <version>2.1</version>
+            <exclusions>
+              <exclusion>
+                <groupId>org.netbeans.tools</groupId>
+                <artifactId>ct-sym</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
