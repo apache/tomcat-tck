@@ -15,7 +15,8 @@ name: TCK testing
 on:
   schedule:
     - cron: '5 8 * * *'
-
+  workflow_dispatch:
+        
 env:
   LC_ALL: en_US.UTF-8
 
