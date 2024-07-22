@@ -34,7 +34,7 @@
         <tomcat.version>11.0.0-M23-SNAPSHOT</tomcat.version>
 
         <!-- Test run configuration -->
-        <fork.count>5</fork.count>
+        <fork.count>4</fork.count>
 
         <!-- TCK versions to test against -->
         <tck.el.version>6.0.1</tck.el.version>
