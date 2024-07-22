@@ -57,6 +57,10 @@
 
     <repositories>
         <repository>
+            <id>asf-snapshots</id>
+            <url>https://repository.apache.org/content/groups/snapshots/</url>
+        </repository>
+        <repository>
             <id>jakarta-staging</id>
             <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
         </repository>
