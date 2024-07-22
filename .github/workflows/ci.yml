@@ -29,6 +29,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
     name: JDK${{ matrix.java }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: true
     steps:
     - name: Git Checkout
       uses: actions/checkout@v4
@@ -39,8 +40,6 @@ jobs:
         distribution: zulu
     - name: Build
       run: mvn verify
-      continue-on-error:
-        true
     - name: Upload logs
       uses: actions/upload-artifact@v4
       with:
