@@ -27,26 +27,26 @@ jobs:
         java: [ 17, 21 ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
     name: JDK${{ matrix.java }} ${{ matrix.os }}
-      runs-on: ${{ matrix.os }}
-      steps:
-      - name: Git Checkout
-        uses: actions/checkout@v4
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ matrix.java }}
-          distribution: zulu
-      - name: Build
-        run: mvn verify
-        continue-on-error:
-          true
-      - name: Upload logs
-        uses: actions/upload-artifact@v4
-        with:
-          name: JDK${{ matrix.java }}-${{ matrix.os }}-logs
-          path: |
-            el-tck/target/failsafe-reports/*
-            jsp-tck/target/failsafe-reports/*
-            servlet-tck/target/failsafe-reports/*
-            websocket-tck/target/failsafe-reports/*
-          retention-days: 7
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Git Checkout
+      uses: actions/checkout@v4
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ matrix.java }}
+        distribution: zulu
+    - name: Build
+      run: mvn verify
+      continue-on-error:
+        true
+    - name: Upload logs
+      uses: actions/upload-artifact@v4
+      with:
+        name: JDK${{ matrix.java }}-${{ matrix.os }}-logs
+        path: |
+          el-tck/target/failsafe-reports/*
+          jsp-tck/target/failsafe-reports/*
+          servlet-tck/target/failsafe-reports/*
+          websocket-tck/target/failsafe-reports/*
+        retention-days: 7
