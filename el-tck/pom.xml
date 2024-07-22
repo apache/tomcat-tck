@@ -78,8 +78,9 @@
                             <systemPropertyVariables>
                                 <variable.mapper>org.apache.el.lang.VariableMapperImpl</variable.mapper>
                                 <junit.log.traceflag>true</junit.log.traceflag>
+                                <jimage.dir>${project.build.directory}/jimage</jimage.dir>
                                 <!-- Use this signature test classpath with the Tomcat provided EL API -->
-                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-el-api/${tomcat.version}/tomcat-el-api-${tomcat.version}.jar:${env.JAVA_HOME}/jmods/java.base</sigTestClasspath>
+                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-el-api/${tomcat.version}/tomcat-el-api-${tomcat.version}.jar:${project.build.directory}/jimage/java.base</sigTestClasspath>
                                 <!-- Use this signature test classpath with the Jakarta provided EL API -->
                                 <!--
                                 <sigTestClasspath>${settings.localRepository}/jakarta/el/jakarta.el-api/${api.el.version}/jakarta.el-api-${api.el.version}.jar:${env.JAVA_HOME}/jmods/java.base</sigTestClasspath>
