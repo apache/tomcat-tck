@@ -144,7 +144,7 @@
                                 <porting.ts.url.class.1>com.sun.ts.tests.websocket.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                                 <org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>0</org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>
                                 <jimage.dir>${project.build.directory}/jimage</jimage.dir>
-                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/embed/tomcat-embed-websocket/${tomcat.version}/tomcat-embed-websocket-${tomcat.version}.jar:${project.build.directory}/jimage/java.base</sigTestClasspath>
+                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/embed/tomcat-embed-websocket/${tomcat.version}/tomcat-embed-websocket-${tomcat.version}.jar${path.separator}${project.build.directory}/jimage/java.base</sigTestClasspath>
                             </systemPropertyVariables>
                             <summaryFile>target/failsafe-reports/failsafe-summary-http.xml</summaryFile>
                         </configuration>

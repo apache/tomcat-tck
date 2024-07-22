@@ -126,7 +126,7 @@
                                 <servlet.tck.support.http2Push>false</servlet.tck.support.http2Push>
                                 <arquillian.launch>http</arquillian.launch>
                                 <jimage.dir>${project.build.directory}/jimage</jimage.dir>
-                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-servlet-api/${tomcat.version}/tomcat-servlet-api-${tomcat.version}.jar:${project.build.directory}/jimage/java.base</sigTestClasspath>
+                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-servlet-api/${tomcat.version}/tomcat-servlet-api-${tomcat.version}.jar${path.separator}${project.build.directory}/jimage/java.base</sigTestClasspath>
                             </systemPropertyVariables>
                             <summaryFile>target/failsafe-reports/failsafe-summary-http.xml</summaryFile>
                         </configuration>

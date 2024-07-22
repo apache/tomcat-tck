@@ -124,7 +124,7 @@
                                 <junit.log.traceflag>true</junit.log.traceflag>
                                 <porting.ts.url.class.1>ee.jakarta.tck.pages.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                                 <jimage.dir>${project.build.directory}/jimage</jimage.dir>
-                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-jsp-api/${tomcat.version}/tomcat-jsp-api-${tomcat.version}.jar:${settings.localRepository}/org/apache/tomcat/tomcat-el-api/${tomcat.version}/tomcat-el-api-${tomcat.version}.jar:${settings.localRepository}/org/apache/tomcat/tomcat-servlet-api/${tomcat.version}/tomcat-servlet-api-${tomcat.version}.jar:${project.build.directory}/jimage/java.base</sigTestClasspath>
+                                <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/tomcat-jsp-api/${tomcat.version}/tomcat-jsp-api-${tomcat.version}.jar${path.separator}${settings.localRepository}/org/apache/tomcat/tomcat-el-api/${tomcat.version}/tomcat-el-api-${tomcat.version}.jar${path.separator}${settings.localRepository}/org/apache/tomcat/tomcat-servlet-api/${tomcat.version}/tomcat-servlet-api-${tomcat.version}.jar${path.separator}${project.build.directory}/jimage/java.base</sigTestClasspath>
                                 <user>j2ee</user>
                                 <password>j2ee</password>
                                 <authuser>javajoe</authuser>
