@@ -29,7 +29,6 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
     name: JDK${{ matrix.java }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     steps:
     - name: Git Checkout
       uses: actions/checkout@v4
@@ -41,6 +40,7 @@ jobs:
     - name: Build
       run: mvn verify
     - name: Upload logs
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: JDK${{ matrix.java }}-${{ matrix.os }}-logs
