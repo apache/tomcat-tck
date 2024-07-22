@@ -39,6 +39,10 @@
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
               </exclusion>
+              <exclusion>
+                <groupId>org.netbeans.tools</groupId>
+                <artifactId>ct-sym</artifactId>
+              </exclusion>
             </exclusions>
         </dependency>
         <dependency>
