@@ -165,6 +165,8 @@
                                 <password>j2ee</password>
                                 <porting.ts.url.class.1>com.sun.ts.tests.websocket.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                                 <org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>0</org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>
+                                <!-- Default is 50ms which is too slow for the TCK. Increase to 1s.  -->
+                                <org.apache.tomcat.websocket.ABNORMAL_SESSION_CLOSE_SEND_TIMEOUT>1000</org.apache.tomcat.websocket.ABNORMAL_SESSION_CLOSE_SEND_TIMEOUT>
                                 <jimage.dir>${project.build.directory}/jimage</jimage.dir>
                                 <sigTestClasspath>${settings.localRepository}/org/apache/tomcat/embed/tomcat-embed-websocket/${tomcat.version}/tomcat-embed-websocket-${tomcat.version}.jar${path.separator}${project.build.directory}/jimage/java.base</sigTestClasspath>
                             </systemPropertyVariables>
@@ -194,6 +196,8 @@
                                 <password>j2ee</password>
                                 <porting.ts.url.class.1>com.sun.ts.tests.websocket.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                                 <org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>0</org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>
+                                <!-- Default is 50ms which is too slow for the TCK. Increase to 1s.  -->
+                                <org.apache.tomcat.websocket.ABNORMAL_SESSION_CLOSE_SEND_TIMEOUT>1000</org.apache.tomcat.websocket.ABNORMAL_SESSION_CLOSE_SEND_TIMEOUT>
                             </systemPropertyVariables>
                             <summaryFile>target/failsafe-reports/failsafe-summary-https.xml</summaryFile>
                         </configuration>
