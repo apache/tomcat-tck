@@ -31,7 +31,7 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <!-- Tomcat version to test -->
-        <tomcat.version>11.0.0-SNAPSHOT</tomcat.version>
+        <tomcat.version>11.0.2-SNAPSHOT</tomcat.version>
 
         <!-- Test run configuration -->
         <fork.count>4</fork.count>
