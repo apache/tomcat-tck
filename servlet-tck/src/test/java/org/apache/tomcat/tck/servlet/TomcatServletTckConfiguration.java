@@ -90,6 +90,7 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                     // Server certificate
                     certificateConfig.setCertificateKeystoreFile(
                             this.getClass().getResource("/localhost-rsa.jks").toExternalForm());
+                    certificateConfig.setCertificateKeystorePassword("changeit");
 
                     tomcat.getService().addConnector(connectorHttps);
                     localPort = connectorHttps.getLocalPort();
