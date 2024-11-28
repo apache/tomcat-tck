@@ -81,10 +81,10 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://download.eclipse.org/jakartaee/servlet/6.1/jakarta-servlet-tck-${tck.servlet.version}.zip</url>
+                            <url>https://www.eclipse.org/downloads/download.php?file=/ee4j/servlet/jakartaee12/staged/eftl/jakarta-servlet-tck-${tck.servlet.version}.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
-                            <sha256>1170697a87622a920bd50f0a68ed594c6efc5e17dd370566312194c4e12bec29</sha256>
+                            <sha256>57e9b8cfc0140b142d139b470d6475e6e23ca9536c7cbddc3840af1148c0b11e</sha256>
                         </configuration>
                     </execution>
                     <execution>
