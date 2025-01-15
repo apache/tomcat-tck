@@ -19,14 +19,22 @@ package org.apache.tomcat.tck.websocket;
 import java.lang.reflect.Field;
 import java.net.URL;
 
+import org.apache.catalina.Container;
 import org.apache.catalina.Host;
+import org.apache.catalina.LifecycleState;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.net.SSLHostConfig;
 import org.apache.tomcat.util.net.SSLHostConfigCertificate;
 import org.apache.tomcat.util.net.SSLHostConfigCertificate.Type;
 import org.apache.tomcat.util.scan.StandardJarScanner;
+import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
+import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
+import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
+import org.jboss.arquillian.container.spi.event.container.AfterDeploy;
 import org.jboss.arquillian.container.spi.event.container.BeforeDeploy;
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.container.tomcat.embedded.EmbeddedContextConfig;
@@ -40,6 +48,10 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
     }
 
     public static class WebSocketObserver {
+
+        @Inject
+        private Instance<ProtocolMetaData> protocolMetadata;
+
 
         public void configureContext(@Observes final BeforeDeploy beforeDeploy) {
             Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) beforeDeploy.getDeployableContainer();
@@ -100,7 +112,60 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
                 throw new RuntimeException(e);
             }
         }
+
+
+        public void something(@Observes final AfterDeploy afterDeploy) {
+            Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) afterDeploy.getDeployableContainer();
+            try {
+                // Obtain reference to Tomcat instance
+                Field tomcatField = Tomcat10EmbeddedContainer.class.getDeclaredField("tomcat");
+                tomcatField.setAccessible(true);
+                Tomcat tomcat = (Tomcat) tomcatField.get(container);
+
+                // There should be a single context
+                Container[] contexts = tomcat.getHost().findChildren();
+                if (contexts.length == 1) {
+                    Container context = contexts[0];
+                    if (LifecycleState.STOPPED == context.getState()) {
+                        /*
+                         * A LifecycleState of STOPPED means that the Context failed to deploy.
+                         *
+                         * To clean up resources associated with a failed deployment, stop() is called automatically if
+                         * start() fails. One of the consequences of this is that all the Servlet mappings are removed
+                         * from the Context.
+                         *
+                         * Because there are no servlet mappings, the HTTPContext generated in
+                         * Tomcat10EmbeddedContainer.deploy() will not have any Servlet mappings. The
+                         * URLResourceProvider uses the Servlet mappings to provide the context path for the URL that
+                         * the client uses for the tests.
+                         *
+                         * For the WebSocket tests, the client needs to use the context path for every request
+                         * regardless of whether the web application deployed successfully or not. Therefore, if the web
+                         * application failed to deploy we manually add a default Servlet to the HTTPContext for the
+                         * failed web application so that URLResourceProvider provides the correct URL to the client.
+                         *
+                         * This might not be the "right" way to do this with Arquillian. If not, advice from Arquillian
+                         * experts on the right way to do this would be appreciated (and a PR to fix it would be
+                         * fantastic!).
+                         */
+                        ProtocolMetaData metaData = protocolMetadata.get();
+                        if (metaData != null) {
+                            if (metaData.hasContext(HTTPContext.class)) {
+                                HTTPContext httpContext = metaData.getContexts(HTTPContext.class).iterator().next();
+                                // Confirm that there are no Servlets configured
+                                if (httpContext.getServlets().size() == 0) {
+                                    httpContext.add(new Servlet("default", context.getName()));
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
+
 
     public static class EmbeddedWebSocketContextConfig extends EmbeddedContextConfig {
 
