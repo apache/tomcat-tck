@@ -40,6 +40,7 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         distribution: zulu
+        cache: 'maven'
     - name: Build
       run: mvn verify
     - name: Upload logs
