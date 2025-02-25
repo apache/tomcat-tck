@@ -84,7 +84,7 @@
                             <url>https://download.eclipse.org/ee4j/servlet/jakartaee12/staged/eftl/jakarta-servlet-tck-${tck.servlet.version}.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
-                            <sha256>f71704fa4ab2b770269dd42ab26dc9924da32acc72bbbd81d15199593b947cf7</sha256>
+                            <sha256>1c07f143c6311bb214620fcc7a5a732d2b4aca031f24402fea128aacb7bd09d4</sha256>
                         </configuration>
                     </execution>
                     <execution>
