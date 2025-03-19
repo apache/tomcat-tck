@@ -68,10 +68,10 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://download.eclipse.org/jakartaee/websocket/2.2/jakarta-websocket-tck-${tck.websocket.version}.zip</url>
+                            <url>https://download.eclipse.org/ee4j/websocket/jakartaee12/staged/eftl/jakarta-websocket-tck-${tck.websocket.version}.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
-                            <sha256>ff50825305bd1318a4e6bdfab21b829cfd8cf89fab8a970f007b52636d3f2629</sha256>
+                            <sha256>34f542fce2599691458c64474c984e4a095ed5de7f5e1f29c38c7fc67e45aeda</sha256>
                         </configuration>
                     </execution>
                     <execution>

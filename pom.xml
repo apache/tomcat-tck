@@ -42,7 +42,7 @@
         <api.el.version>6.0.0</api.el.version>
         <tck.servlet.version>6.2.0-SNAPSHOT</tck.servlet.version>
         <tck.pages.version>4.0.0</tck.pages.version>
-        <tck.websocket.version>2.2.0</tck.websocket.version>
+        <tck.websocket.version>2.3.0-SNAPSHOT</tck.websocket.version>
 
         <!-- TCK dependency versions -->        
         <tck.common.version>11.0.0-M1</tck.common.version>

@@ -98,17 +98,6 @@
             <artifactId>arquillian-junit5-core</artifactId>
             <version>${arquillian.version}</version>
         </dependency>
-        <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>sigtest-maven-plugin</artifactId>
-            <version>2.1</version>
-            <exclusions>
-              <exclusion>
-                <groupId>org.netbeans.tools</groupId>
-                <artifactId>ct-sym</artifactId>
-              </exclusion>
-            </exclusions>
-        </dependency>
     </dependencies>
 
     <build>
