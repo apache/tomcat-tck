@@ -60,8 +60,15 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
             <id>asf-snapshots</id>
             <url>https://repository.apache.org/content/groups/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </repository>
         <repository>
             <id>asf-staging</id>
@@ -70,10 +77,6 @@
         <repository>
             <id>jakarta-staging</id>
             <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
-        </repository>
-        <repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2</url>
         </repository>
         <repository>
             <id>jboss</id>
