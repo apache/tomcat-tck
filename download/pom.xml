@@ -55,10 +55,12 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://download.eclipse.org/jakartaee/expression-language/6.0/jakarta-expression-language-tck-${tck.el.version}.zip</url>
+                            <url>https://download.eclipse.org/ee4j/expression-language/jakartaee12/staged/eftl/jakarta-expression-language-tck-${tck.websocket.version}.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
+                            <!-- Disbale checkum verification while SNAPSHOT builds are being used
                             <sha256>8ca4339e1b93c8f490c38b5888d8a54d09f7d12257b222bff2d44d665f323cee</sha256>
+                            -->
                         </configuration>
                     </execution>
                     <execution>
