@@ -100,23 +100,12 @@
                             <goal>wget</goal>
                         </goals>
                         <configuration>
-                            <url>https://download.eclipse.org/jakartaee/pages/4.0/jakarta-pages-tck-4.0.0.zip</url>
+                            <url>https://download.eclipse.org/ee4j/pages/jakartaee12/staged/eftl/jakarta-pages-tck-${tck.pages.version}.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
+                            <!-- Disbale checkum verification while SNAPSHOT builds are being used
                             <sha256>5446aa866601a7c4c425f74054590cfc7f4fc05592a572d399ecc8694e265489</sha256>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>download-javatest-jar</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>wget</goal>
-                        </goals>
-                        <configuration>
-                            <url>https://github.com/jakartaee/platform-tck/raw/040a4f57f87342629da0242d1ced99647ac44676/lib/javatest.jar</url>
-                            <unpack>false</unpack>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <sha256>73d0c322e76839c405f2000b568cc8906977b430ba23e83f20d420345e8a13a4</sha256>
+                            -->
                         </configuration>
                     </execution>
                 </executions>
@@ -221,20 +210,6 @@
                         </goals>
                         <configuration>
                             <file>${project.build.directory}/pages-tck/artifacts/jakarta-pages-tck-${tck.pages.version}.jar</file>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>install-javatest-jar</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <configuration>
-                            <file>${project.build.directory}/javatest.jar</file>
-                            <groupId>javatest</groupId>
-                            <artifactId>javatest</artifactId>
-                            <version>5.0</version>
-                            <packaging>jar</packaging>
                         </configuration>
                     </execution>
                 </executions>
