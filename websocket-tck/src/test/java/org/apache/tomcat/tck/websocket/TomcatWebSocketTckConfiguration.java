@@ -16,8 +16,12 @@
  */
 package org.apache.tomcat.tck.websocket;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.catalina.Container;
 import org.apache.catalina.Host;
@@ -28,6 +32,11 @@ import org.apache.tomcat.util.net.SSLHostConfig;
 import org.apache.tomcat.util.net.SSLHostConfigCertificate;
 import org.apache.tomcat.util.net.SSLHostConfigCertificate.Type;
 import org.apache.tomcat.util.scan.StandardJarScanner;
+import org.apache.tomcat.websocket.MessagePart;
+import org.apache.tomcat.websocket.Transformation;
+import org.apache.tomcat.websocket.TransformationBuilder;
+import org.apache.tomcat.websocket.TransformationFactory;
+import org.apache.tomcat.websocket.TransformationResult;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
@@ -37,6 +46,11 @@ import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.LoadableExtension;
+import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
+
+import jakarta.websocket.Extension;
+import jakarta.websocket.Extension.Parameter;
+
 import org.jboss.arquillian.container.tomcat.embedded.EmbeddedContextConfig;
 import org.jboss.arquillian.container.tomcat.embedded.Tomcat10EmbeddedContainer;
 
@@ -164,6 +178,16 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
                 throw new RuntimeException(e);
             }
         }
+
+
+        public void configureTestClients(@SuppressWarnings("unused") @Observes final BeforeClass event) {
+            // Configure the NO-OP extensions required by the TCK
+            TransformationFactory.getInstance().registerExtension("ext1", new NoOpTransformationBuilder("ext1"));
+            TransformationFactory.getInstance().registerExtension("ext2", new NoOpTransformationBuilder("ext2"));
+            TransformationFactory.getInstance().registerExtension("firstExtName", new NoOpTransformationBuilder("firstExtName"));
+            TransformationFactory.getInstance().registerExtension("secondExtName", new NoOpTransformationBuilder("secondExtName"));
+            TransformationFactory.getInstance().registerExtension("thirdExtName", new NoOpTransformationBuilder("thirdExtName"));
+        }
     }
 
 
@@ -184,6 +208,82 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
             context.setJarScanner(jarScanner);
 
             super.beforeStart();
+        }
+    }
+
+
+    static class NoOpTransformationBuilder implements TransformationBuilder {
+
+        private final String name;
+
+        NoOpTransformationBuilder(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public Transformation build(List<List<Parameter>> preferences, boolean isServer) {
+            return new Transformation() {
+
+                private Transformation next;
+
+                @Override
+                public boolean validateRsvBits(int i) {
+                    if (next == null) {
+                        return true;
+                    } else {
+                        return next.validateRsvBits(i);
+                    }
+                }
+
+                @Override
+                public boolean validateRsv(int rsv, byte opCode) {
+                    if (next == null) {
+                        return true;
+                    } else {
+                        return next.validateRsv(rsv, opCode);
+                    }
+                }
+
+                @Override
+                public void setNext(Transformation t) {
+                    if (next == null) {
+                        this.next = t;
+                    } else {
+                        next.setNext(t);
+                    }
+                }
+
+                @Override
+                public List<MessagePart> sendMessagePart(List<MessagePart> messageParts) throws IOException {
+                    return next.sendMessagePart(messageParts);
+                }
+
+                @Override
+                public TransformationResult getMoreData(byte opCode, boolean fin, int rsv, ByteBuffer dest) throws IOException {
+                    return next.getMoreData(opCode, fin, rsv, dest);
+                }
+
+                @Override
+                public Extension getExtensionResponse() {
+                    return new Extension() {
+
+                        @Override
+                        public String getName() {
+                            return name;
+                        }
+
+                        @Override
+                        public List<Parameter> getParameters() {
+                            return Collections.emptyList();
+                        }
+                    };
+                }
+
+                @Override
+                public void close() {
+                    next.close();
+                }
+            };
         }
     }
 }
