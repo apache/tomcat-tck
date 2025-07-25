@@ -114,7 +114,7 @@ public class TomcatWebSocketTckConfiguration implements LoadableExtension {
         }
 
 
-        public void something(@Observes final AfterDeploy afterDeploy) {
+        public void fixFailedDeploymentTest(@Observes final AfterDeploy afterDeploy) {
             Tomcat10EmbeddedContainer container = (Tomcat10EmbeddedContainer) afterDeploy.getDeployableContainer();
             try {
                 // Obtain reference to Tomcat instance
