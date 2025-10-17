@@ -39,7 +39,7 @@
         <!-- TCK versions to test against -->
         <tck.annotations.version>3.0.0</tck.annotations.version>
         <tck.el.version>6.1.0-SNAPSHOT</tck.el.version>
-        <api.el.version>6.0.1</api.el.version>
+        <api.el.version>6.1.0-SNAPSHOT</api.el.version>
         <tck.servlet.version>6.2.0-SNAPSHOT</tck.servlet.version>
         <tck.pages.version>4.1.0-SNAPSHOT</tck.pages.version>
         <tck.websocket.version>2.3.0-SNAPSHOT</tck.websocket.version>
