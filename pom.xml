@@ -49,7 +49,7 @@
         <arquillian.version>1.8.0.Final</arquillian.version>
         <arquillian.tomcat.version>1.2.0.Final</arquillian.tomcat.version>
         <junit.jupiter.version>5.9.1</junit.jupiter.version>
-        <failsafe.plugin.version>3.2.5</failsafe.plugin.version>
+        <failsafe.plugin.version>3.3.0</failsafe.plugin.version>
 
         <!-- Tomcat TCK project dependencies-->
         <download.maven.plugin.version>2.0.0</download.maven.plugin.version>
