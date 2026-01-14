@@ -54,7 +54,7 @@
         <!-- Tomcat TCK project dependencies-->
         <download.maven.plugin.version>2.0.0</download.maven.plugin.version>
         <maven.install.plugin.version>3.1.2</maven.install.plugin.version>
-        <jacoco.version>0.8.12</jacoco.version>
+        <jacoco.version>0.8.14</jacoco.version>
         <jacoco.skip>true</jacoco.skip>
     </properties>
 
