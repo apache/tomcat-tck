@@ -47,7 +47,7 @@
         <!-- TCK dependency versions -->        
         <tck.common.version>11.1.1-M2</tck.common.version>
         <arquillian.version>1.10.0.Final</arquillian.version>
-        <arquillian.tomcat.version>1.2.0.Final</arquillian.tomcat.version>
+        <arquillian.tomcat.version>1.2.2.Final</arquillian.tomcat.version>
         <junit.jupiter.version>5.9.1</junit.jupiter.version>
         <failsafe.plugin.version>3.5.4</failsafe.plugin.version>
 

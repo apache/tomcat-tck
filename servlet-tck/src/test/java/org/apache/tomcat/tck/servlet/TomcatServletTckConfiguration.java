@@ -62,7 +62,6 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                 tomcatField.setAccessible(true);
                 Tomcat tomcat = (Tomcat) tomcatField.get(container);
                 Connector connectorHttp = tomcat.getConnector();
-                int localPort;
 
                 if ("https".equals(System.getProperty("arquillian.launch"))) {
                     // Need to enabled HTTPS - only used for client-cert tests
@@ -92,8 +91,9 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                             this.getClass().getResource("/localhost-rsa.jks").toExternalForm());
                     certificateConfig.setCertificateKeystorePassword("changeit");
 
+                    // Arquillian expects Tomcat to have a single connector
+                    tomcat.getService().removeConnector(connectorHttp);
                     tomcat.getService().addConnector(connectorHttps);
-                    localPort = connectorHttps.getLocalPort();
 
                     // Configure the client
                     // Copy the client certificate from the TCK JAR
@@ -119,7 +119,6 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
 
                     // Add trailer headers used in TCK to allow list
                     connectorHttp.setProperty("allowedTrailerHeaders", "myTrailer,myTrailer2");
-                    localPort = connectorHttp.getLocalPort();
 
                     // Add expected users
                     tomcat.addUser("j2ee", "j2ee");
@@ -130,13 +129,6 @@ public class TomcatServletTckConfiguration implements LoadableExtension {
                     tomcat.addRole("javajoe", "Manager");
                 }
 
-                // Update Arquillian configuration with port being used by Tomcat
-                Field configurationField = Tomcat10EmbeddedContainer.class.getDeclaredField("configuration");
-                configurationField.setAccessible(true);
-                Object configuration = configurationField.get(container);
-                Field portField = container.getConfigurationClass().getDeclaredField("bindHttpPort");
-                portField.setAccessible(true);
-                portField.set(configuration, Integer.valueOf(localPort));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
