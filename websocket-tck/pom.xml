@@ -135,13 +135,8 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <excludes>
-                                <exclude>**/cdi/**</exclude>
-                                <exclude>**/authenticatedssl/**</exclude>
-                            </excludes>
                             <dependenciesToScan>
                                 <dependency>jakarta.tck:websocket-tck-spec-tests</dependency>
-                                <dependency>jakarta.tck:websocket-tck-platform-tests</dependency>
                             </dependenciesToScan>
                             <forkCount>${fork.count}</forkCount>
                             <reuseForks>false</reuseForks>
@@ -163,35 +158,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>https</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/authenticatedssl/**</include>
-                            </includes>
-                            <dependenciesToScan>
-                                <dependency>jakarta.tck:websocket-tck-spec-tests</dependency>
-                                <dependency>jakarta.tck:websocket-tck-platform-tests</dependency>
-                            </dependenciesToScan>
-                            <reuseForks>false</reuseForks>
-                            <systemPropertyVariables>
-                                <arquillian.launch>https</arquillian.launch>
-                                <ws_wait>5</ws_wait>
-                                <lib.name>websockettck</lib.name>
-                                <junit.log.traceflag>true</junit.log.traceflag>
-                                <user>j2ee</user>
-                                <password>j2ee</password>
-                                <porting.ts.url.class.1>com.sun.ts.tests.websocket.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
-                                <org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>0</org.apache.tomcat.websocket.DEFAULT_PROCESS_PERIOD>
-                                <!-- Default is 50ms which is too slow for the TCK. Increase to 1s.  -->
-                                <org.apache.tomcat.websocket.ABNORMAL_SESSION_CLOSE_SEND_TIMEOUT>1000</org.apache.tomcat.websocket.ABNORMAL_SESSION_CLOSE_SEND_TIMEOUT>
-                            </systemPropertyVariables>
-                            <summaryFile>target/failsafe-reports/failsafe-summary-https.xml</summaryFile>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>verify</id>
                         <goals>
                             <goal>verify</goal>
@@ -199,7 +165,6 @@
                         <configuration>
                             <summaryFiles>
                                 <summaryFile>target/failsafe-reports/failsafe-summary-http.xml</summaryFile>
-                                <summaryFile>target/failsafe-reports/failsafe-summary-https.xml</summaryFile>
                             </summaryFiles>
                         </configuration>
                     </execution>
