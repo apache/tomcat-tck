@@ -75,10 +75,6 @@
             <url>https://repository.apache.org/content/groups/staging/</url>
         </repository>
         <repository>
-            <id>jakarta-staging</id>
-            <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
-        </repository>
-        <repository>
             <id>jboss</id>
             <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
         </repository>
