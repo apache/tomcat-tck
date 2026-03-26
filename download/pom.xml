@@ -149,16 +149,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>install-websocket-tck-common</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <configuration>
-                            <file>${project.build.directory}/websocket-tck/artifacts/websocket-tck-common-${tck.websocket.version}.jar</file>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>install-websocket-tck-tests</id>
                         <phase>pre-integration-test</phase>
                         <goals>
