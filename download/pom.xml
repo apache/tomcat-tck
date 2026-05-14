@@ -48,6 +48,8 @@
                             <sha256>9421c6ca66274d32dfb408848f75a42d57f120599fe0d8403c5c5c1141d5ac4d</sha256>
                         </configuration>
                     </execution>
+                    <!--
+                        Disable as EL TCK snapshots are now available from Maven Central
                     <execution>
                         <id>download-el-tck</id>
                         <phase>pre-integration-test</phase>
@@ -58,11 +60,10 @@
                             <url>https://download.eclipse.org/ee4j/expression-language/jakartaee12/staged/eftl/jakarta-expression-language-tck-${tck.el.version}.zip</url>
                             <unpack>true</unpack>
                             <outputDirectory>${project.build.directory}</outputDirectory>
-                            <!-- Disbale checkum verification while SNAPSHOT builds are being used
                             <sha256>8ca4339e1b93c8f490c38b5888d8a54d09f7d12257b222bff2d44d665f323cee</sha256>
-                            -->
                         </configuration>
                     </execution>
+                    -->
                     <execution>
                         <id>download-websocket-tck</id>
                         <phase>pre-integration-test</phase>

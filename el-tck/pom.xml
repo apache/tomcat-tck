@@ -30,8 +30,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>jakarta.tck</groupId>
-            <artifactId>jakarta-expression-language-tck</artifactId>
+            <groupId>jakarta.el</groupId>
+            <artifactId>expression-language-tck</artifactId>
             <version>${tck.el.version}</version>
             <!--
               Exclude this API package if you want to run the TCK with the Tomcat provided EL API.
@@ -100,7 +100,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <dependenciesToScan>jakarta.tck:jakarta-expression-language-tck</dependenciesToScan>
+                            <dependenciesToScan>jakarta.el:expression-language-tck</dependenciesToScan>
                             <systemPropertyVariables>
                                 <variable.mapper>org.apache.el.lang.VariableMapperImpl</variable.mapper>
                                 <junit.log.traceflag>true</junit.log.traceflag>
