@@ -125,6 +125,8 @@
                             <file>${project.build.directory}/annotations-tck/artifacts/jakarta-annotations-tck-${tck.annotations.version}.jar</file>
                         </configuration>
                     </execution>
+                    <!--
+                        Disable as EL TCK snapshots are now available from Maven Central
                     <execution>
                         <id>install-el-tck</id>
                         <phase>pre-integration-test</phase>
@@ -135,6 +137,7 @@
                             <file>${project.build.directory}/el-tck/artifacts/jakarta-expression-language-tck-${tck.el.version}.jar</file>
                         </configuration>
                     </execution>
+                    -->
                     <execution>
                         <id>install-websocket-tck-pom</id>
                         <phase>pre-integration-test</phase>
